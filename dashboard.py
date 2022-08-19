@@ -12,7 +12,8 @@ from PIL import Image
 import itertools
 import matplotlib.pyplot as plt
 import requests
-from numba import cloudpickle
+import cloudpickle
+import numba
 
 
 #app = flask.Flask(__name__)
