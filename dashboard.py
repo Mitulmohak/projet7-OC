@@ -94,7 +94,7 @@ def main():
         st.pyplot(fig)
 
     else: 
-        st.write("OK")
+        st.write("OKk")
         
      
 
