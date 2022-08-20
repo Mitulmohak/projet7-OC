@@ -33,7 +33,7 @@ def main():
 
     st.markdown("<h2 style='text-align: center; color: black;'> Credit scoring </h2>", unsafe_allow_html=True)
 
-    #API_URL = "http://127.0.0.1:5000/api/"
+    API_URL = "http://127.0.0.1:5000/"
 
 
     background = Image.open("image.png")
@@ -50,12 +50,12 @@ def main():
 
     if st.button("Predict"):
         #result=decision(client_id)
-        result = requests.get("http://127.0.0.1:5000/api/predict?client_id="+str(client_id)).json()
+        result = requests.get(API_URL+"predict?client_id="+str(client_id)).json()
         #st.write({"api" : api})
     st.success(result)
 
     if(st.button("Importance")):
-        result_imp= requests.get("http://127.0.0.1:5000/importances?client_id="+str(client_id)+"&first_n_var="+str(first_n_var)).json()
+        result_imp= requests.get(API_URL+"importances?client_id="+str(client_id)+"&first_n_var="+str(first_n_var)).json()
         x = list(result_imp.keys())
         y = list(result_imp.values())
         #importances(client_id,first_n_var)
@@ -69,7 +69,7 @@ def main():
 
     
     if (st.button("Distribution")):
-        result_box = requests.get("http://127.0.0.1:5000/boxplot?feature=AMT_CREDIT").json()
+        result_box = requests.get(API_URL+"boxplot?feature=AMT_CREDIT").json()
         fig, ax1 = plt.subplots()
         ax1.set_title('AMT_CREDIT')
         ax1.hist(result_box, bins=20, density= True)
@@ -87,7 +87,7 @@ def main():
     if page == 'Univariate':
 
         features = st.multiselect('Choose a feature you want to analyse', list(feats))
-        result_box = requests.get("http://127.0.0.1:5000/boxplot?feature="+str(features[0])).json()
+        result_box = requests.get(API_URL+"boxplot?feature="+str(features[0])).json()
         fig, ax1 = plt.subplots()
         ax1.set_title('Boxplot plot')
         ax1.boxplot(result_box)
