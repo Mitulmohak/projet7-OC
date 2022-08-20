@@ -10,3 +10,4 @@ shap==0.39.0
 imbalanced-learn==0.9.1
 matplotlib==3.5.1
 cloudpickle==2.00
+numba==0.55.1
