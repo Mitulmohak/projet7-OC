@@ -33,7 +33,7 @@ def main():
 
     st.markdown("<h2 style='text-align: center; color: black;'> Credit scoring </h2>", unsafe_allow_html=True)
 
-    API_URL = "http://127.0.0.1:5000/"
+    API_URL = "https://obscure-waters-95734.herokuapp.com/"
 
 
     background = Image.open("image.png")
