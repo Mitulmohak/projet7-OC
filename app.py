@@ -21,6 +21,7 @@ app.config["DEBUG"] = False
 
 #Chargement du tableau et du modèle
 df = pd.read_pickle("df.gz")
+df_desc = pd.read_pickle("df_desc.gz")
 df.drop(columns=["index"], inplace=True)
 df.set_index("SK_ID_CURR", inplace=True)
 feats = np.genfromtxt('feats.csv', dtype='unicode', delimiter=',')
@@ -47,18 +48,30 @@ def proba():
     if 'client_id' in request.args:
         client_id = int(request.args["client_id"])
         pred = make_prediction(client_id)
-        if pred>0.27:
-        	return {"The client id is" : client_id,
-          		   "The probability is higher than 0.27, the value is": pred,
-          		   "The credit is": "accepted" }
+        if pred<0.84:
+        	return {"The client id is" : [client_id],
+          		   "The probability is bellow than 0.84, the value is": [pred],
+          		   "The credit is": ["accepted"] }
         else:
-        	return {"The client id is: ": client_id,
-          		   "The probability is bellow than 0.27, the value is ": pred,
-          		   "The credit is": "not accepted" }
+        	return {"The client id is: ": [client_id],
+          		   "The probability is higher than 0.84, the value is ": [pred],
+          		   "The credit is": ["not accepted"] }
     else:
 
     	return "Error"  
 
+@app.route('/informations', methods = ["GET"])
+def info():
+
+    client_id = int(request.args["client_id"])
+    amt_inc = df['AMT_INCOME_TOTAL'].loc[client_id]
+    amt_ann = df['AMT_ANNUITY'].loc[client_id]
+    amt = df['AMT_CREDIT'].loc[client_id]
+    gender = df['CODE_GENDER'].loc[client_id]
+    age = int(df['DAYS_BIRTH'].loc[client_id] *100)/(365.25 * 100)
+    cnt_child = df['CNT_CHILDREN'].loc[client_id]
+    status = df['NAME_FAMILY_STATUS_Married'].loc[client_id]
+    return json.dumps([int(amt_inc),int(amt_ann),int(amt),int(gender),int(-age),int(cnt_child),int(status)])
 
 @app.route('/importances', methods=["GET"])
 def importances():
@@ -80,6 +93,9 @@ def importances():
        return "Error"   
 
 
+@app.route("/descriptions", methods = ["GET"])
+def description():    
+    return json.dumps(df_desc.to_dict())
 
 
 @app.route('/boxplot', methods=["GET"])
