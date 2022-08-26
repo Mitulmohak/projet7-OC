@@ -15,8 +15,6 @@ import matplotlib.pyplot as plt
 import requests
 import cloudpickle
 import numba
-import plotly.figure_factory as ff
-
 
 
 
@@ -35,8 +33,8 @@ def main():
 
     st.markdown("<h2 style='text-align: center; color: black;'> Credit scoring </h2>", unsafe_allow_html=True)
 
-    #API_URL = "https://obscure-waters-95734.herokuapp.com/"
-    API_URL = "http://127.0.0.1:5000/"
+    API_URL = "https://obscure-waters-95734.herokuapp.com/"
+    #API_URL = "http://127.0.0.1:5000/"
 
     background = Image.open("image.png")
     col1, col2, col3 = st.columns([0.2, 5, 0.2])
